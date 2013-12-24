@@ -2,13 +2,16 @@
 #define PLUGINPROCESSOR_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "ParameterBus.h"
 
+class SynthChannels;
 
 //==============================================================================
 /**
 */
 class BeepBoxAudioProcessor  
-	: public AudioProcessor
+	: public AudioProcessor,
+	  public ParameterBus
 {
 public:
     //==============================================================================
@@ -24,6 +27,11 @@ public:
     //==============================================================================
     AudioProcessorEditor* createEditor();
     bool hasEditor() const;
+
+	//==============================================================================
+	virtual void configureParameters(void);
+	virtual Array<ParameterSource*> getParameterSources(void);
+	virtual void updateParameter(ParameterSource *source, Parameter *parameter);
 
     //==============================================================================
     const String getName() const;
@@ -46,6 +54,7 @@ public:
     bool silenceInProducesSilenceOut() const;
     double getTailLengthSeconds() const;
 
+
     //==============================================================================
     int getNumPrograms();
     int getCurrentProgram();
@@ -58,6 +67,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes);
 
 private:
+	ScopedPointer<SynthChannels> synthChannels;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BeepBoxAudioProcessor)
 };

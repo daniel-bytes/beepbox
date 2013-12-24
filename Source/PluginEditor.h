@@ -13,20 +13,30 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "ParameterSource.h"
 
+class ParameterBus;
 
 //==============================================================================
 /**
 */
-class BeepBoxAudioProcessorEditor  : public AudioProcessorEditor
+class BeepBoxAudioProcessorEditor  
+	: public AudioProcessorEditor,
+	  public ParameterSource
 {
 public:
     BeepBoxAudioProcessorEditor (BeepBoxAudioProcessor* ownerFilter);
     ~BeepBoxAudioProcessorEditor();
 
+	//==============================================================================
+	virtual void onParameterUpdated(Parameter *parameter);
+
     //==============================================================================
     // This is just a standard Juce paint method...
     void paint (Graphics& g);
+
+private:
+	ParameterBus *bus;
 };
 
 

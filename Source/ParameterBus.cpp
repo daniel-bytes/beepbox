@@ -1,4 +1,5 @@
 #include "ParameterBus.h"
+#include "ParameterSource.h"
 
 ParameterBus::ParameterBus(void)
 {
@@ -10,6 +11,17 @@ ParameterBus::~ParameterBus(void)
 
 	while(it.next()) {
 		delete it.getValue();
+	}
+}
+
+void ParameterBus::updateParameter(ParameterSource *source, Parameter *parameter)
+{
+	auto parameterSources = getParameterSources();
+
+	for (auto parameterSource : parameterSources) {
+		if (parameterSource != nullptr && parameterSource != source) {
+			parameterSource->onParameterUpdated(parameter);
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 class ParameterSource
 {
 public:
-	virtual void onParameterUpdated(const Parameter &parameter) = 0;
+	virtual void onParameterUpdated(Parameter *parameter) = 0;
 };
 
 #endif //__PARAMETERSOURCE_H__

@@ -10,14 +10,40 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-
+#include "SynthChannels.h"
 
 //==============================================================================
 BeepBoxAudioProcessor::BeepBoxAudioProcessor()
 {
+	synthChannels = new SynthChannels(this);
 }
 
 BeepBoxAudioProcessor::~BeepBoxAudioProcessor()
+{
+	synthChannels = nullptr;
+}
+
+//==============================================================================
+void BeepBoxAudioProcessor::configureParameters(void)
+{
+}
+
+Array<ParameterSource*> BeepBoxAudioProcessor::getParameterSources(void)
+{
+	Array<ParameterSource*> sources;
+
+	// add all sources here
+	sources.add(synthChannels);
+
+	auto editor = getActiveEditor();
+	if (editor != nullptr) {
+		sources.add((ParameterSource*)editor);
+	}
+
+	return sources;
+}
+
+void BeepBoxAudioProcessor::updateParameter(ParameterSource *source, Parameter *parameter)
 {
 }
 
@@ -29,26 +55,27 @@ const String BeepBoxAudioProcessor::getName() const
 
 int BeepBoxAudioProcessor::getNumParameters()
 {
-    return 0;
+	return getAutomationParameterCount();
 }
 
 float BeepBoxAudioProcessor::getParameter (int index)
 {
-    return 0.0f;
+	return getAutomationParameterValue(index);
 }
 
 void BeepBoxAudioProcessor::setParameter (int index, float newValue)
 {
+	setAutomationParameterValue(index, newValue);
 }
 
 const String BeepBoxAudioProcessor::getParameterName (int index)
 {
-    return String::empty;
+	return getAutomationParameterName(index);
 }
 
 const String BeepBoxAudioProcessor::getParameterText (int index)
 {
-    return String::empty;
+	return getAutomationParameterText(index);
 }
 
 const String BeepBoxAudioProcessor::getInputChannelName (int channelIndex) const
@@ -123,28 +150,19 @@ void BeepBoxAudioProcessor::changeProgramName (int index, const String& newName)
 }
 
 //==============================================================================
-void BeepBoxAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void BeepBoxAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+	synthChannels->prepareToPlay(sampleRate, samplesPerBlock);
 }
 
 void BeepBoxAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
+	synthChannels->releaseResources();
 }
 
-void BeepBoxAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
+void BeepBoxAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    for (int channel = 0; channel < getNumInputChannels(); ++channel)
-    {
-       // float* channelData = buffer.getSampleData (channel);
-
-        // ..do something to the data...
-    }
+	synthChannels->processBlock(buffer, getNumInputChannels(), getNumOutputChannels());
 
     // In case we have more outputs than inputs, we'll clear any output
     // channels that didn't contain input data, (because these aren't

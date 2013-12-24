@@ -2,8 +2,9 @@
 #define __PARAMETERBUS_H__
 
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "ParameterSource.h"
 #include "Parameter.h"
+
+class ParameterSource;
 
 class ParameterBus
 {
@@ -12,12 +13,14 @@ public:
 	virtual ~ParameterBus(void);
 
 public:
+	virtual void configureParameters(void) = 0;
+	virtual Array<ParameterSource*> getParameterSources(void) = 0;
+	virtual void updateParameter(ParameterSource *source, Parameter *parameter);
+
 	void configureStringParameter(ParameterID id, String name, String defaultValue);
 	void configureArrayParameter(ParameterID id, String name, Array<var> defaultValue);
 	void configureIntParameter(ParameterID id, String name, int defaultValue, int minValue, int maxValue, bool isAutomationParameter);
 	void configureFloatParameter(ParameterID id, String name, float defaultValue, float minValue, float maxValue, bool isAutomationParameter);
-
-	virtual void updateParameter(const ParameterSource *source, ParameterID id, var value) = 0;
 
 	Parameter* getParameter(ParameterID id) const;
 	var getParameterValue(ParameterID id) const;

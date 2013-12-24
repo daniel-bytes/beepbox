@@ -10,17 +10,24 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-
+#include "ParameterBus.h"
 
 //==============================================================================
 BeepBoxAudioProcessorEditor::BeepBoxAudioProcessorEditor (BeepBoxAudioProcessor* ownerFilter)
     : AudioProcessorEditor (ownerFilter)
 {
+	bus = (ParameterBus*)ownerFilter;
+
     // This is where our plugin's editor size is set.
     setSize (800, 600);
 }
 
 BeepBoxAudioProcessorEditor::~BeepBoxAudioProcessorEditor()
+{
+}
+
+//==============================================================================
+void BeepBoxAudioProcessorEditor::onParameterUpdated(Parameter *parameter)
 {
 }
 
