@@ -53,12 +53,6 @@ void BeepBoxAudioProcessor::configureParameters(void)
 	configureIntParameter(ParameterID::StepSequencerStepCount, "Steps", 8, 4, 32, false);
 	configureIntParameter(ParameterID::StepSequencerPosition, "Position", 0, 0, 32, false);
 	configureIntParameter(ParameterID::StepSequencerResolution, "Clock Speed", 8, 1, 64, true);
-
-	// TEST
-	auto d = (SequencerData*)getParameterValue(ParameterID::Channel1_SequencerData).getObject();
-	SequencerStep step = {1.0, true};
-	d->setValue(0, step);
-	d->setValue(4, step);
 }
 
 Array<ParameterSource*> BeepBoxAudioProcessor::getParameterSources(void)

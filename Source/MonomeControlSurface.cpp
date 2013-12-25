@@ -27,6 +27,19 @@ void MonomeControlSurface::onParameterUpdated(Parameter *parameter)
 
 void MonomeControlSurface::buttonPressMessageReceived(int x, int y, bool state)
 {
+	if (state && y < NUM_CHANNELS) {
+		ParameterID dataid = GetChannelParameterID(ParameterID::Channel1_SequencerData, y);
+		auto data = (SequencerData*)bus->getParameterValue(dataid).getObject();
+
+		if (x < data->getNumSteps()) {
+			auto value = data->getValue(x);
+			value.isSet = !value.isSet;
+			value.value = value.isSet ? 1.0f : 0.0f;
+			data->setValue(x, value);
+
+			bus->updateParameter(this, dataid, data);
+		}
+	}
 }
 
 void MonomeControlSurface::drawGrid(void)
@@ -48,6 +61,9 @@ void MonomeControlSurface::drawGrid(void)
 		}
 		rowdata.set(i, bits);
 	}
+
+	int position = (1 << (int)bus->getParameterValue(ParameterID::StepSequencerPosition));
+	rowdata.set(MAX_ROWS - 1, position);
 
 	serialosc->sendDeviceLedMapCommand(0, 0, rowdata);
 }
