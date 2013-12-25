@@ -32,6 +32,7 @@ public:
 
 	//==============================================================================
 	virtual void configureParameters(void);
+	virtual void configureChannelParameters(int channel);
 	virtual Array<ParameterSource*> getParameterSources(void);
 
 	//==============================================================================

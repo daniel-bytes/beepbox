@@ -3,7 +3,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-#define NUM_CHANNELS 1
+#define NUM_CHANNELS 6
 #define CHANNEL_PARAMETER_OFFSET 100
 #define GLOBAL_PARAMETER_OFFSET 1000
 
@@ -22,8 +22,9 @@ enum class ParameterID
 	Channel1_Pitch = 1,
 	Channel1_Gain = 2,
 	Channel1_Waveform = 3,
-	Channel1_Decay = 4,
-	Channel1_SequencerData = 10,
+	Channel1_Attack = 4,
+	Channel1_Decay = 5,
+	Channel1_SequencerData = 6,
 
 	// Global
 	ActiveChannel = 1001,

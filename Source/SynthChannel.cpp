@@ -67,7 +67,7 @@ void SynthChannel::initializeIncrement(void)
 
 void SynthChannel::initializeEnvelopeIncrement(void)
 {
-	double scaledDecay = scale(decay, 5.0, 1.0);
+	double scaledDecay = scale(decay, 20.0, 1.0);
 	envelopeincrement = (1.0 / sampleRate) * scaledDecay;
 }
 

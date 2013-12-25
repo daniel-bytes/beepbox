@@ -14,6 +14,8 @@
 #include "SequencerData.h"
 #include "MonomeControlSurface.h"
 
+#define STEP_SEQUENCER_DEFAULT_NUM_STEPS 8
+
 //==============================================================================
 BeepBoxAudioProcessor::BeepBoxAudioProcessor()
 {
@@ -43,16 +45,38 @@ void BeepBoxAudioProcessor::timerCallback(void)
 //==============================================================================
 void BeepBoxAudioProcessor::configureParameters(void)
 {
-	configureIntParameter(ParameterID::Channel1_Pitch, "Pitch 1", 0, -60, 60, true);
-	configureFloatParameter(ParameterID::Channel1_Gain, "Gain 1", .75f, 0.0f, 1.0f, true);
-	configureFloatParameter(ParameterID::Channel1_Waveform, "Wave 1", 0, 0.0f, 1.0f, true);
-	configureFloatParameter(ParameterID::Channel1_Decay, "Decay 1", .75f, 0.0f, 1.0f, true);
-	configureReferenceCountedObjectParameter(ParameterID::Channel1_SequencerData, "Sequencer Data 1", new SequencerData(8));
+	for (int i = 0; i < NUM_CHANNELS; i++) {
+		configureChannelParameters(i);
+	}
 
 	configureIntParameter(ParameterID::ActiveChannel, "Active Channel", 0, 0, NUM_CHANNELS, false);
 	configureIntParameter(ParameterID::StepSequencerStepCount, "Steps", 8, 4, 32, false);
 	configureIntParameter(ParameterID::StepSequencerPosition, "Position", 0, 0, 32, false);
-	configureIntParameter(ParameterID::StepSequencerResolution, "Clock Speed", 8, 1, 64, true);
+	configureIntParameter(ParameterID::StepSequencerResolution, "Clock Speed", 16, 1, 64, true);
+}
+
+void BeepBoxAudioProcessor::configureChannelParameters(int channel)
+{
+	String pitch = "Pitch ";
+	String gain = "Gain ";
+	String wave = "Waveform ";
+	String attack = "Attack ";
+	String decay = "Decay ";
+	String data = "Sequencer Data ";
+
+	pitch << (channel + 1);
+	gain << (channel + 1);
+	wave << (channel + 1);
+	attack << (channel + 1);
+	decay << (channel + 1);
+	data << (channel + 1);
+
+	configureIntParameter(GetChannelParameterID(ParameterID::Channel1_Pitch, channel), pitch, 0, -60, 60, true);
+	configureFloatParameter(GetChannelParameterID(ParameterID::Channel1_Gain, channel), gain, .75f, 0.0f, 1.0f, true);
+	configureFloatParameter(GetChannelParameterID(ParameterID::Channel1_Waveform, channel), wave, 0, 0.0f, 1.0f, true);
+	//configureFloatParameter(GetChannelParameterID(ParameterID::Channel1_Attack, channel), attack, .75f, 0.0f, 1.0f, true);
+	configureFloatParameter(GetChannelParameterID(ParameterID::Channel1_Decay, channel), decay, .75f, 0.0f, 1.0f, true);
+	configureReferenceCountedObjectParameter(GetChannelParameterID(ParameterID::Channel1_SequencerData, channel), data, new SequencerData(STEP_SEQUENCER_DEFAULT_NUM_STEPS));
 }
 
 Array<ParameterSource*> BeepBoxAudioProcessor::getParameterSources(void)
