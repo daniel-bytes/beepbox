@@ -5,13 +5,15 @@
 #include "ParameterBus.h"
 
 class SynthChannels;
+class MonomeControlSurface;
 
 //==============================================================================
 /**
 */
 class BeepBoxAudioProcessor  
 	: public AudioProcessor,
-	  public ParameterBus
+	  public ParameterBus,
+	  public Timer
 {
 public:
     //==============================================================================
@@ -31,7 +33,9 @@ public:
 	//==============================================================================
 	virtual void configureParameters(void);
 	virtual Array<ParameterSource*> getParameterSources(void);
-	virtual void updateParameter(ParameterSource *source, Parameter *parameter);
+
+	//==============================================================================
+	void timerCallback();
 
     //==============================================================================
     const String getName() const;
@@ -68,6 +72,7 @@ public:
 
 private:
 	ScopedPointer<SynthChannels> synthChannels;
+	ScopedPointer<MonomeControlSurface> monome;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (BeepBoxAudioProcessor)
 };

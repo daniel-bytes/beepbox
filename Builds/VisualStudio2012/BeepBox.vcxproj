@@ -139,7 +139,9 @@
     <ClCompile Include="..\..\osckpack\osc\OscPrintReceivedElements.cpp" />
     <ClCompile Include="..\..\osckpack\osc\OscReceivedElements.cpp" />
     <ClCompile Include="..\..\osckpack\osc\OscTypes.cpp" />
+    <ClCompile Include="..\..\Source\MonomeControlSurface.cpp" />
     <ClCompile Include="..\..\Source\ParameterBus.cpp" />
+    <ClCompile Include="..\..\Source\ParameterID.cpp" />
     <ClCompile Include="..\..\Source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\Source\PluginEditor.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -1211,7 +1213,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_gui_extra\juce_gui_extra.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_opengl\juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_video\juce_video.cpp" />
+    <ClCompile Include="..\..\Source\SequencerData.cpp" />
     <ClCompile Include="..\..\Source\SerialOscController.cpp" />
+    <ClCompile Include="..\..\Source\StepSequencer.cpp" />
     <ClCompile Include="..\..\Source\SynthChannel.cpp" />
     <ClCompile Include="..\..\Source\SynthChannels.cpp" />
     <ClCompile Include="..\..\Source\Utilities.cpp" />
@@ -1230,6 +1234,7 @@
     <ClInclude Include="..\..\osckpack\osc\OscPrintReceivedElements.h" />
     <ClInclude Include="..\..\osckpack\osc\OscReceivedElements.h" />
     <ClInclude Include="..\..\osckpack\osc\OscTypes.h" />
+    <ClInclude Include="..\..\Source\MonomeControlSurface.h" />
     <ClInclude Include="..\..\Source\MonomeDevice.h" />
     <ClInclude Include="..\..\Source\Parameter.h" />
     <ClInclude Include="..\..\Source\ParameterBus.h" />
@@ -1674,8 +1679,11 @@
     <ClInclude Include="..\..\..\..\juce\modules\juce_video\juce_video.h" />
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
+    <ClInclude Include="..\..\Source\SequencerData.h" />
     <ClInclude Include="..\..\Source\SerialOscController.h" />
+    <ClInclude Include="..\..\Source\StepSequencer.h" />
     <ClInclude Include="..\..\Source\SynthChannel.h" />
+    <ClInclude Include="..\..\Source\SynthChannelControl.h" />
     <ClInclude Include="..\..\Source\SynthChannels.h" />
     <ClInclude Include="..\..\Source\Utilities.h" />
   </ItemGroup>

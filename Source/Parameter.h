@@ -141,4 +141,33 @@ protected:
 	Array<var> currentValue;
 };
 
+// ReferenceCountedObject parameter
+class ReferenceCountedObjectParameter
+	: public Parameter
+{
+	public:
+	ReferenceCountedObjectParameter(ParameterID id, String name, ReferenceCountedObject *value)
+		: Parameter(id, name)
+	{
+		obj = value;
+	}
+
+	virtual var getValue(void) const { return obj; }
+	virtual String getDisplayValue(void) const { return ""; }
+
+	virtual void setValue(var value) {
+		if (value.isObject()) {
+			obj = value;
+		}
+	}
+
+	virtual var resetValue(void) {
+		// can't reset
+		return obj;
+	}
+
+protected:
+	var obj;
+};
+
 #endif //__PARAMETER_H__

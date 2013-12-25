@@ -11,21 +11,54 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "SynthChannels.h"
+#include "SequencerData.h"
+#include "MonomeControlSurface.h"
 
 //==============================================================================
 BeepBoxAudioProcessor::BeepBoxAudioProcessor()
 {
+	configureParameters();
+
 	synthChannels = new SynthChannels(this);
+	initializeSource(synthChannels);
+
+	monome = new MonomeControlSurface(this);
+	initializeSource(monome);
+
+	startTimer(100);
 }
 
 BeepBoxAudioProcessor::~BeepBoxAudioProcessor()
 {
+	stopTimer();
 	synthChannels = nullptr;
+	monome = nullptr;
+}
+
+void BeepBoxAudioProcessor::timerCallback(void)
+{
+	monome->drawGrid();
 }
 
 //==============================================================================
 void BeepBoxAudioProcessor::configureParameters(void)
 {
+	configureIntParameter(ParameterID::Channel1_Pitch, "Pitch 1", 0, -60, 60, true);
+	configureFloatParameter(ParameterID::Channel1_Gain, "Gain 1", .75f, 0.0f, 1.0f, true);
+	configureFloatParameter(ParameterID::Channel1_Waveform, "Wave 1", 0, 0.0f, 1.0f, true);
+	configureFloatParameter(ParameterID::Channel1_Decay, "Decay 1", .75f, 0.0f, 1.0f, true);
+	configureReferenceCountedObjectParameter(ParameterID::Channel1_SequencerData, "Sequencer Data 1", new SequencerData(8));
+
+	configureIntParameter(ParameterID::ActiveChannel, "Active Channel", 0, 0, NUM_CHANNELS, false);
+	configureIntParameter(ParameterID::StepSequencerStepCount, "Steps", 8, 4, 32, false);
+	configureIntParameter(ParameterID::StepSequencerPosition, "Position", 0, 0, 32, false);
+	configureIntParameter(ParameterID::StepSequencerResolution, "Clock Speed", 8, 1, 64, true);
+
+	// TEST
+	auto d = (SequencerData*)getParameterValue(ParameterID::Channel1_SequencerData).getObject();
+	SequencerStep step = {1.0, true};
+	d->setValue(0, step);
+	d->setValue(4, step);
 }
 
 Array<ParameterSource*> BeepBoxAudioProcessor::getParameterSources(void)
@@ -34,17 +67,15 @@ Array<ParameterSource*> BeepBoxAudioProcessor::getParameterSources(void)
 
 	// add all sources here
 	sources.add(synthChannels);
+	sources.add(monome);
 
 	auto editor = getActiveEditor();
+
 	if (editor != nullptr) {
 		sources.add((ParameterSource*)editor);
 	}
 
 	return sources;
-}
-
-void BeepBoxAudioProcessor::updateParameter(ParameterSource *source, Parameter *parameter)
-{
 }
 
 //==============================================================================
@@ -162,6 +193,13 @@ void BeepBoxAudioProcessor::releaseResources()
 
 void BeepBoxAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
+    AudioPlayHead::CurrentPositionInfo posInfo;
+	this->getPlayHead()->getCurrentPosition(posInfo);
+
+	if (posInfo.isPlaying) {
+		synthChannels->onClockStep(posInfo.ppqPosition);
+	}
+
 	synthChannels->processBlock(buffer, getNumInputChannels(), getNumOutputChannels());
 
     // In case we have more outputs than inputs, we'll clear any output
@@ -176,12 +214,16 @@ void BeepBoxAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& 
 //==============================================================================
 bool BeepBoxAudioProcessor::hasEditor() const
 {
-    return true; // (change this to false if you choose to not supply an editor)
+    return false;
 }
 
 AudioProcessorEditor* BeepBoxAudioProcessor::createEditor()
 {
-    return new BeepBoxAudioProcessorEditor (this);
+    auto editor = new BeepBoxAudioProcessorEditor(this);
+	
+	initializeSource(editor);
+
+	return editor;
 }
 
 //==============================================================================

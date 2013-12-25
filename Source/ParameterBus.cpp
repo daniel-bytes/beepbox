@@ -14,14 +14,22 @@ ParameterBus::~ParameterBus(void)
 	}
 }
 
-void ParameterBus::updateParameter(ParameterSource *source, Parameter *parameter)
+void ParameterBus::updateParameter(ParameterSource *source, ParameterID id, var value)
 {
-	auto parameterSources = getParameterSources();
+	jassert(parameters.contains(id));
 
-	for (auto parameterSource : parameterSources) {
-		if (parameterSource != nullptr && parameterSource != source) {
-			parameterSource->onParameterUpdated(parameter);
-		}
+	auto parameter = parameters[id];
+
+	parameter->setValue(value);
+	notifySources(source, id);
+}
+
+void ParameterBus::initializeSource(ParameterSource *source)
+{
+	HashMap<ParameterID, Parameter*, ParameterIDHash>::Iterator it(parameters);
+
+	while(it.next()) {
+		source->onParameterUpdated(it.getValue());
 	}
 }
 
@@ -63,6 +71,14 @@ void ParameterBus::configureFloatParameter(ParameterID id, String name, float de
 	if (isAutomationParameter) {
 		automationParameterIDs.add(id);
 	}
+}
+
+void ParameterBus::configureReferenceCountedObjectParameter(ParameterID id, String name, ReferenceCountedObject *value)
+{
+	jassert(!parameters.contains(id));
+
+	auto parameter = new ReferenceCountedObjectParameter(id, name, value);
+	parameters.set(id, parameter);
 }
 
 Parameter* ParameterBus::getParameter(ParameterID id) const
@@ -114,4 +130,18 @@ void ParameterBus::setAutomationParameterValue(int index, float value)
 	Parameter *parameter = getParameter(id);
 
 	parameter->setNormalizedValue(value);
+
+	notifySources(nullptr, id);
+}
+
+void ParameterBus::notifySources(ParameterSource *source, ParameterID id)
+{
+	auto parameterSources = getParameterSources();
+
+	for (auto parameterSource : parameterSources) {
+		if (parameterSource != nullptr && parameterSource != source) {
+			auto parameter = parameters[id];
+			parameterSource->onParameterUpdated(parameter);
+		}
+	}
 }

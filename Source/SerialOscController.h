@@ -6,6 +6,9 @@
 #include "ip/UdpSocket.h"
 #include "MonomeDevice.h"
 
+#define SERIALOSC_ADDRESS "127.0.0.1"
+#define SERIALOSC_PORT 12002
+
 class UdpListeningReceiveSocket;
 
 

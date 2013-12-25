@@ -18,21 +18,34 @@ public:
 	void prepareToPlay(double sampleRate, int samplesPerBlock);
 	void releaseResources(void);
 	void processBlock(AudioSampleBuffer& buffer, int numInputChannels, int numOutputChannels);
+	void trigger(double velocity);
 
 private:
 	void initializeIncrement(void);
 	void incrementPhase(void);
 	double getWaveformFromPhase(void);
+	
+	void initializeEnvelopeIncrement(void);
+	void incrementEnvelopePhase(void);
+	double getEnvelopeFromPhase(void);
+
+private:
+	enum class EnvelopeState { Off, Triggered };
 
 private:
 	ParameterBus *bus;
 	int channelNumber;
 	double phase;
 	double increment;
+	double envelopephase;
+	double envelopeincrement;
+	EnvelopeState envelopestate;
 	int pitch;
 	double gain;
 	double sampleRate;
 	double waveform;
+	double decay;
+	double velocity;
 };
 
 #endif //__SYNTHCHANNEL_H__

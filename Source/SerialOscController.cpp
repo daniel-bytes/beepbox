@@ -2,8 +2,6 @@
 #include "osc/OscOutboundPacketStream.h"
 #include <exception>
 
-#define SERIALOSC_ADDRESS "127.0.0.1"
-#define SERIALOSC_PORT 12002
 #define OSC_BUFFER_SIZE 1024
 
 SerialOscController::SerialOscController(String devicePrefix, int defaultPort)

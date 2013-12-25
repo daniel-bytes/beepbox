@@ -7,9 +7,6 @@
     <Filter Include="Source\GUI">
       <UniqueIdentifier>{4cefd98d-b48a-4850-b350-e4cb9b351dff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Control">
-      <UniqueIdentifier>{45c1e61c-980c-47a3-8f85-3c433b63d074}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Parameters">
       <UniqueIdentifier>{f9a34db9-cda9-48a6-a94f-91d63e506301}</UniqueIdentifier>
     </Filter>
@@ -333,6 +330,9 @@
     </Filter>
     <Filter Include="Source\Engine">
       <UniqueIdentifier>{05289455-f20d-4f67-8d0b-f09ec7352703}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Monome">
+      <UniqueIdentifier>{45c1e61c-980c-47a3-8f85-3c433b63d074}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1504,7 +1504,7 @@
       <Filter>Source\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SerialOscController.cpp">
-      <Filter>Source\Control</Filter>
+      <Filter>Source\Monome</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ParameterBus.cpp">
       <Filter>Source\Parameters</Filter>
@@ -1523,6 +1523,18 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\SynthChannel.cpp">
       <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SequencerData.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\StepSequencer.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ParameterID.cpp">
+      <Filter>Source\Parameters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MonomeControlSurface.cpp">
+      <Filter>Source\Monome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2883,10 +2895,10 @@
       <Filter>Source\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MonomeDevice.h">
-      <Filter>Source\Control</Filter>
+      <Filter>Source\Monome</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SerialOscController.h">
-      <Filter>Source\Control</Filter>
+      <Filter>Source\Monome</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Parameter.h">
       <Filter>Source\Parameters</Filter>
@@ -2908,6 +2920,18 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\SynthChannel.h">
       <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SynthChannelControl.h">
+      <Filter>Source\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SequencerData.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\StepSequencer.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MonomeControlSurface.h">
+      <Filter>Source\Monome</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

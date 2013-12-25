@@ -6,6 +6,7 @@
 
 class SynthChannel;
 class ParameterBus;
+class StepSequencer;
 
 class SynthChannels
 	: public ParameterSource
@@ -19,8 +20,10 @@ public:
 	void prepareToPlay(double sampleRate, int samplesPerBlock);
 	void releaseResources(void);
 	void processBlock(AudioSampleBuffer& buffer, int numInputChannels, int numOutputChannels);
+	void onClockStep(double ppq);
 
 private:
+	OwnedArray<StepSequencer> sequencers;
 	OwnedArray<SynthChannel> channels;
 };
 

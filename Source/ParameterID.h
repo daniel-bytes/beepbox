@@ -1,8 +1,11 @@
 #ifndef __PARAMETERID_H__
 #define __PARAMETERID_H__
 
+#include "../JuceLibraryCode/JuceHeader.h"
+
 #define NUM_CHANNELS 1
 #define CHANNEL_PARAMETER_OFFSET 100
+#define GLOBAL_PARAMETER_OFFSET 1000
 
 /*
  * Each channel based set of parameters starts at a multiple of 100.
@@ -19,13 +22,14 @@ enum class ParameterID
 	Channel1_Pitch = 1,
 	Channel1_Gain = 2,
 	Channel1_Waveform = 3,
-	
-	// Channel 2
-	Channel2_Pitch = 101,
-	Channel2_Gain = 102,
-	Channel2_Waveform = 103,
+	Channel1_Decay = 4,
+	Channel1_SequencerData = 10,
 
 	// Global
+	ActiveChannel = 1001,
+	StepSequencerStepCount = 1002,
+	StepSequencerPosition = 1003,
+	StepSequencerResolution = 1004
 };
 
 struct ParameterIDHash
@@ -36,5 +40,10 @@ struct ParameterIDHash
 		 return std::abs (iKey) % upperLimit; 
 	 }
 };
+
+
+ParameterID GetBaseParameterID(ParameterID id, int channel);
+
+ParameterID GetChannelParameterID(ParameterID baseid, int channel);
 
 #endif //__PARAMETERID_H__

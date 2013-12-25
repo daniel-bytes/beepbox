@@ -12,24 +12,28 @@ public:
 	ParameterBus(void);
 	virtual ~ParameterBus(void);
 
-public:
+	Parameter* getParameter(ParameterID id) const;
+	var getParameterValue(ParameterID id) const;
+	void initializeSource(ParameterSource *source);
+	virtual void updateParameter(ParameterSource *source, ParameterID id, var value);
+
+protected:
 	virtual void configureParameters(void) = 0;
 	virtual Array<ParameterSource*> getParameterSources(void) = 0;
-	virtual void updateParameter(ParameterSource *source, Parameter *parameter);
 
 	void configureStringParameter(ParameterID id, String name, String defaultValue);
 	void configureArrayParameter(ParameterID id, String name, Array<var> defaultValue);
 	void configureIntParameter(ParameterID id, String name, int defaultValue, int minValue, int maxValue, bool isAutomationParameter);
 	void configureFloatParameter(ParameterID id, String name, float defaultValue, float minValue, float maxValue, bool isAutomationParameter);
+	void configureReferenceCountedObjectParameter(ParameterID id, String name, ReferenceCountedObject *value);
 
-	Parameter* getParameter(ParameterID id) const;
-	var getParameterValue(ParameterID id) const;
-	
 	int getAutomationParameterCount(void) const;
 	float getAutomationParameterValue(int index) const;
 	String getAutomationParameterText(int index) const;
 	String getAutomationParameterName(int index) const;
 	void setAutomationParameterValue(int index, float value);
+
+	void notifySources(ParameterSource *source, ParameterID id);
 
 private:
 	Array<ParameterID> automationParameterIDs;
