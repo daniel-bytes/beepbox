@@ -14,7 +14,7 @@ ParameterBus::~ParameterBus(void)
 	}
 }
 
-void ParameterBus::updateParameter(ParameterSource *source, ParameterID id, var value)
+void ParameterBus::updateParameterAndNotify(ParameterSource *source, ParameterID id, var value)
 {
 	jassert(parameters.contains(id));
 
@@ -22,6 +22,41 @@ void ParameterBus::updateParameter(ParameterSource *source, ParameterID id, var 
 
 	parameter->setValue(value);
 	notifySources(source, id);
+}
+
+void ParameterBus::updateParameterAndQueueNotification(ParameterSource *source, ParameterID id, var value, int deferTicks)
+{
+	jassert(parameters.contains(id));
+
+	auto parameter = parameters[id];
+
+	parameter->setValue(value);
+
+	NotificationQueueItem item = { source, id, deferTicks };
+	notificationQueue.push(item);
+}
+
+void ParameterBus::triggerNotificationQueue(void)
+{
+	Array<NotificationQueueItem> notificationItems;
+
+	while (!notificationQueue.empty()) {
+		auto item = notificationQueue.front();
+
+		notificationQueue.pop();
+		
+		if (item.tickCount <= 0) {
+			notifySources(item.source, item.id);
+		}
+		else {
+			item.tickCount--;
+			notificationItems.add(item);
+		}
+	}
+
+	for (auto item : notificationItems) {
+		notificationQueue.push(item);
+	}
 }
 
 void ParameterBus::initializeSource(ParameterSource *source)

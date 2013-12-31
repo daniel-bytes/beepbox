@@ -32,7 +32,7 @@ SequencerStep StepSequencer::onClockStep(double ppq)
 		result = data->getValue(currentStep);
 
 		if ((int)bus->getParameterValue(ParameterID::StepSequencerPosition) != currentStep) {
-			bus->updateParameter(this, ParameterID::StepSequencerPosition, currentStep);
+			bus->updateParameterAndQueueNotification(this, ParameterID::StepSequencerPosition, currentStep);
 		}
 	}
 

@@ -1216,6 +1216,7 @@
     <ClCompile Include="..\..\Source\SequencerData.cpp" />
     <ClCompile Include="..\..\Source\SerialOscController.cpp" />
     <ClCompile Include="..\..\Source\StepSequencer.cpp" />
+    <ClCompile Include="..\..\Source\StepSequencerControl.cpp" />
     <ClCompile Include="..\..\Source\SynthChannel.cpp" />
     <ClCompile Include="..\..\Source\SynthChannels.cpp" />
     <ClCompile Include="..\..\Source\Utilities.cpp" />
@@ -1682,6 +1683,7 @@
     <ClInclude Include="..\..\Source\SequencerData.h" />
     <ClInclude Include="..\..\Source\SerialOscController.h" />
     <ClInclude Include="..\..\Source\StepSequencer.h" />
+    <ClInclude Include="..\..\Source\StepSequencerControl.h" />
     <ClInclude Include="..\..\Source\SynthChannel.h" />
     <ClInclude Include="..\..\Source\SynthChannelControl.h" />
     <ClInclude Include="..\..\Source\SynthChannels.h" />

@@ -3,6 +3,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Parameter.h"
+#include <queue>
 
 class ParameterSource;
 
@@ -15,7 +16,10 @@ public:
 	Parameter* getParameter(ParameterID id) const;
 	var getParameterValue(ParameterID id) const;
 	void initializeSource(ParameterSource *source);
-	virtual void updateParameter(ParameterSource *source, ParameterID id, var value);
+
+	virtual void triggerNotificationQueue(void);
+	virtual void updateParameterAndNotify(ParameterSource *source, ParameterID id, var value);
+	virtual void updateParameterAndQueueNotification(ParameterSource *source, ParameterID id, var value, int deferTicks = 0);
 
 protected:
 	virtual void configureParameters(void) = 0;
@@ -36,8 +40,17 @@ protected:
 	void notifySources(ParameterSource *source, ParameterID id);
 
 private:
+	struct NotificationQueueItem
+	{
+		ParameterSource *source;
+		ParameterID id;
+		int tickCount;
+	};
+
+private:
 	Array<ParameterID> automationParameterIDs;
 	HashMap<ParameterID, Parameter*, ParameterIDHash> parameters;
+	std::queue<NotificationQueueItem> notificationQueue;
 };
 
 #endif //__PARAMETERBUS_H__

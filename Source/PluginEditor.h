@@ -16,6 +16,7 @@
 #include "ParameterSource.h"
 
 class ParameterBus;
+class StepSequencerControl;
 
 //==============================================================================
 /**
@@ -37,6 +38,7 @@ public:
 
 private:
 	ParameterBus *bus;
+	ScopedPointer<StepSequencerControl> stepSequencerControl;
 };
 
 

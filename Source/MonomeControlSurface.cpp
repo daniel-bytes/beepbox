@@ -37,7 +37,7 @@ void MonomeControlSurface::buttonPressMessageReceived(int x, int y, bool state)
 			value.value = value.isSet ? 1.0f : 0.0f;
 			data->setValue(x, value);
 
-			bus->updateParameter(this, dataid, data);
+			bus->updateParameterAndNotify(this, dataid, data);
 		}
 	}
 }
