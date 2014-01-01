@@ -13,25 +13,23 @@
  * So, channel 1 starts at 0, 2 at 100, etc.
  * This allows a channel to be determined from a ParameterID by dividing by 100.
  *
- * - Example:  int channelIndex = (int)parameter->getParameterID() / CHANNEL_PARAMETER_OFFSET;
- *
  * Non-channel based (global) parameters start at 1000.
  */
 enum class ParameterID
 {
-	// Channel 1
-	Channel1_Pitch = 1,
-	Channel1_Gain = 2,
-	Channel1_Waveform = 3,
-	Channel1_Attack = 4,
-	Channel1_Decay = 5,
-	Channel1_SequencerData = 6,
+	// Channel Data
+	Channel_Pitch = 1,
+	Channel_Gain = 2,
+	Channel_Waveform = 3,
+	Channel_Attack = 4,
+	Channel_Decay = 5,
+	Channel_SequencerData = 6,
 
 	// Global
-	ActiveChannel = 1001,
-	StepSequencerStepCount = 1002,
-	StepSequencerPosition = 1003,
-	StepSequencerResolution = 1004
+	Global_ActiveChannel = 1001,
+	Global_SequencerStepCount = 1002,
+	Global_SequencerPosition = 1003,
+	Global_SequencerStepResolution = 1004
 };
 
 struct ParameterIDHash

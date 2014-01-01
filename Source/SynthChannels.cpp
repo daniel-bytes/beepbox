@@ -55,26 +55,28 @@ void SynthChannels::processBlock(AudioSampleBuffer& buffer, int numInputChannels
 
 void SynthChannels::onClockStep(bool isPlaying, double ppq)
 {
+	const double quarterNoteResolution = 24.0;
+	const double ninetySixthNote = 96.0;
+
 	if (currentPPQ == ppq) {
 		return;
 	}
+	
+	int numSteps = bus->getParameterValue(ParameterID::Global_SequencerStepCount);
+	int resolution = bus->getParameterValue(ParameterID::Global_SequencerStepResolution);
 
-	int resolution = bus->getParameterValue(ParameterID::StepSequencerResolution);
-	int numSteps = bus->getParameterValue(ParameterID::StepSequencerStepCount);
-
-	int pulse = (int)floor(ppq * 24.0);
-	int pulsesPerStep = (int)(96.0 / resolution);
-
+	int pulse = (int)floor(ppq * quarterNoteResolution);
+	int pulsesPerStep = (int)(ninetySixthNote / resolution);
 	int clockPos = (pulse / pulsesPerStep) % numSteps;
 
 	if (currentStep != clockPos) {
 		currentStep = clockPos;
 
-		bus->updateParameterAndNotify(this, ParameterID::StepSequencerPosition, currentStep);
+		bus->updateParameterAndNotify(this, ParameterID::Global_SequencerPosition, currentStep);
 
 		if (isPlaying) {
 			for (int channel = 0; channel < channels.size(); channel++) {
-				SequencerData *data = bus->getChannelParameterObject<SequencerData>(ParameterID::Channel1_SequencerData, channel);
+				SequencerData *data = bus->getChannelParameterObject<SequencerData>(ParameterID::Channel_SequencerData, channel);
 				SequencerStep value = data->getValue(currentStep);
 
 				if (value.isSet) {

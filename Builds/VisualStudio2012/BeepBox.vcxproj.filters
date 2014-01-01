@@ -1517,6 +1517,12 @@
     <ClCompile Include="..\..\Source\Utilities.cpp">
       <Filter>Source\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\SynthChannelControl.cpp">
+      <Filter>Source\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ChannelSelectorControl.cpp">
+      <Filter>Source\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.h">
@@ -2913,6 +2919,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Utilities.h">
       <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ChannelSelectorControl.h">
+      <Filter>Source\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,14 +2,31 @@
 #define __SYNTHCHANNELCONTROL_H__
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "ParameterSource.h"
+
+class ParameterBus;
 
 class SynthChannelControl
 	: public Component,
-	  public juce::Slider::Listener
+	  public juce::Slider::Listener,
+	  public ParameterSource
 {
+public:
+	SynthChannelControl(ParameterBus *bus);
+	virtual ~SynthChannelControl(void);
+
+public:
+	virtual void onParameterUpdated(Parameter *parameter);
+	virtual void sliderValueChanged (Slider* slider);
+	void updateSliderValues(void);
 
 private:
-	int channel;
+	void configureSlider(ParameterID id, Slider &slider, Label &label, int position);
+	void setSliderValue(ParameterID id, Slider &slider);
+
+private:
+	ParameterBus *bus;
+
 	Slider pitchSlider, 
 		   gainSlider, 
 		   waveformSlider,

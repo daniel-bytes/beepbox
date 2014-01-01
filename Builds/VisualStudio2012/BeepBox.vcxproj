@@ -139,6 +139,7 @@
     <ClCompile Include="..\..\osckpack\osc\OscPrintReceivedElements.cpp" />
     <ClCompile Include="..\..\osckpack\osc\OscReceivedElements.cpp" />
     <ClCompile Include="..\..\osckpack\osc\OscTypes.cpp" />
+    <ClCompile Include="..\..\Source\ChannelSelectorControl.cpp" />
     <ClCompile Include="..\..\Source\MonomeControlSurface.cpp" />
     <ClCompile Include="..\..\Source\ParameterBus.cpp" />
     <ClCompile Include="..\..\Source\ParameterID.cpp" />
@@ -1217,6 +1218,7 @@
     <ClCompile Include="..\..\Source\SerialOscController.cpp" />
     <ClCompile Include="..\..\Source\StepSequencerControl.cpp" />
     <ClCompile Include="..\..\Source\SynthChannel.cpp" />
+    <ClCompile Include="..\..\Source\SynthChannelControl.cpp" />
     <ClCompile Include="..\..\Source\SynthChannels.cpp" />
     <ClCompile Include="..\..\Source\Utilities.cpp" />
   </ItemGroup>
@@ -1234,6 +1236,7 @@
     <ClInclude Include="..\..\osckpack\osc\OscPrintReceivedElements.h" />
     <ClInclude Include="..\..\osckpack\osc\OscReceivedElements.h" />
     <ClInclude Include="..\..\osckpack\osc\OscTypes.h" />
+    <ClInclude Include="..\..\Source\ChannelSelectorControl.h" />
     <ClInclude Include="..\..\Source\MonomeControlSurface.h" />
     <ClInclude Include="..\..\Source\MonomeDevice.h" />
     <ClInclude Include="..\..\Source\Parameter.h" />

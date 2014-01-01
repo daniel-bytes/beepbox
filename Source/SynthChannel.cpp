@@ -112,17 +112,17 @@ void SynthChannel::onParameterUpdated(Parameter *parameter)
 	ParameterID baseid = GetBaseParameterID(parameter->getParameterID(), channelNumber);
 
 	switch(baseid) {
-		case ParameterID::Channel1_Gain:
+		case ParameterID::Channel_Gain:
 			this->gain = parameter->getValue();
 			break;
-		case ParameterID::Channel1_Pitch:
+		case ParameterID::Channel_Pitch:
 			this->pitch = parameter->getValue();
 			initializeIncrement();
 			break;
-		case ParameterID::Channel1_Waveform:
+		case ParameterID::Channel_Waveform:
 			this->waveform = parameter->getValue();
 			break;
-		case ParameterID::Channel1_Decay:
+		case ParameterID::Channel_Decay:
 			this->decay = parameter->getValue();
 			initializeEnvelopeIncrement();
 			break;

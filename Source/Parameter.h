@@ -45,6 +45,9 @@ public:
 
 	virtual var getValue(void) const { return currentValue; }
 	virtual void setValue(var value) { currentValue = value; }
+	virtual float getDefaultValue(void) const { return defaultValue; }
+	virtual float getMinValue(void) const { return minValue; }
+	virtual float getMaxValue(void) const { return maxValue; }
 	virtual String getDisplayValue(void) const { return String(currentValue, 2); }
 	virtual var resetValue(void) { currentValue = defaultValue; return currentValue; }
 	virtual float getNormalizedValue(void) const { return normalize(currentValue, minValue, maxValue); }
@@ -73,6 +76,9 @@ public:
 
 	virtual var getValue(void) const { return currentValue; }
 	virtual void setValue(var value) { currentValue = value; }
+	virtual int getDefaultValue(void) const { return defaultValue; }
+	virtual int getMinValue(void) const { return minValue; }
+	virtual int getMaxValue(void) const { return maxValue; }
 	virtual String getDisplayValue(void) const { return String((float)currentValue, 2); }
 	virtual var resetValue(void) { currentValue = defaultValue; return currentValue; }
 	virtual float getNormalizedValue(void) const { return normalize((float)currentValue, (float)minValue, (float)maxValue); }
@@ -99,6 +105,7 @@ public:
 
 	virtual var getValue(void) const { return currentValue; }
 	virtual void setValue(var value) { currentValue = value; }
+	virtual String getDefaultValue(void) const { return defaultValue; }
 	virtual String getDisplayValue(void) const { return currentValue; }
 	virtual var resetValue(void) { currentValue = defaultValue; return currentValue; }
 

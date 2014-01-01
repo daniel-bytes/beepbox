@@ -16,8 +16,8 @@ void StepSequencerControl::paint(Graphics &g)
 	const float stepPadding = 5.0f;
 	const float cornerSize = 3.0f;
 
-	int currentStep = bus->getParameterValue(ParameterID::StepSequencerPosition);
-	int stepCount = bus->getParameterValue(ParameterID::StepSequencerStepCount);
+	int currentStep = bus->getParameterValue(ParameterID::Global_SequencerPosition);
+	int stepCount = bus->getParameterValue(ParameterID::Global_SequencerStepCount);
 	Rectangle<int> sequencerBounds(this->getWidth() - 2, this->getHeight() - 2);
 	float fWidth = (float)sequencerBounds.getWidth();
 	float fHeight = (float)sequencerBounds.getHeight();
@@ -35,7 +35,7 @@ void StepSequencerControl::paint(Graphics &g)
 
 	// Draw sequencer
 	for (int chan = 0; chan < NUM_CHANNELS; chan++) {
-		SequencerData* data = bus->getChannelParameterObject<SequencerData>(ParameterID::Channel1_SequencerData, chan);
+		SequencerData* data = bus->getChannelParameterObject<SequencerData>(ParameterID::Channel_SequencerData, chan);
 		
 		// draw channel dividers
 		float y = (float)chan * channelHeight;
@@ -98,7 +98,7 @@ void StepSequencerControl::onMouseEvent(const MouseEvent &event, bool isDrag)
 	jassert(trackNumber >= 0 && trackNumber < NUM_CHANNELS);
 
 	// Get sequencer data for the track
-	SequencerData* data = bus->getChannelParameterObject<SequencerData>(ParameterID::Channel1_SequencerData, trackNumber);
+	SequencerData* data = bus->getChannelParameterObject<SequencerData>(ParameterID::Channel_SequencerData, trackNumber);
 
 	// Get the current step
 	float xdistance = jlimit(0.f, .9999f, (float)position.getX() / (float)this->getWidth());
@@ -129,7 +129,7 @@ void StepSequencerControl::onMouseEvent(const MouseEvent &event, bool isDrag)
 	
 	seqValue.value = seqValue.isSet ? 1.f : 0.f;
 	data->setValue(stepNumber, seqValue);
-	bus->updateChannelParameterAndNotify(this, ParameterID::Channel1_SequencerData, trackNumber, data);
+	bus->updateChannelParameterAndNotify(this, ParameterID::Channel_SequencerData, trackNumber, data);
 
 	repaint();
 }

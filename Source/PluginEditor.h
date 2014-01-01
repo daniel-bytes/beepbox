@@ -17,6 +17,8 @@
 
 class ParameterBus;
 class StepSequencerControl;
+class SynthChannelControl;
+class ChannelSelectorControl;
 
 //==============================================================================
 /**
@@ -39,6 +41,8 @@ public:
 private:
 	ParameterBus *bus;
 	ScopedPointer<StepSequencerControl> stepSequencerControl;
+	ScopedPointer<SynthChannelControl> synthChannelControl;
+	ScopedPointer<ChannelSelectorControl> channelSelectorControl;
 };
 
 
