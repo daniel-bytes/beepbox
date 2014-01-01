@@ -1,5 +1,19 @@
 #include "ParameterID.h"
 
+bool IsChannelParameterID(ParameterID id)
+{
+	return (int)id < GLOBAL_PARAMETER_OFFSET;
+}
+
+int GetChannelIndex(ParameterID id)
+{
+	if (!IsChannelParameterID(id)) {
+		return INVALID_CHANNEL_INDEX;
+	}
+
+	return (int)id / CHANNEL_PARAMETER_OFFSET;
+}
+
 ParameterID GetBaseParameterID(ParameterID id, int channel)
 {
 	jassert(channel < NUM_CHANNELS);

@@ -4,6 +4,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 #define NUM_CHANNELS 6
+#define INVALID_CHANNEL_INDEX -1
 #define CHANNEL_PARAMETER_OFFSET 100
 #define GLOBAL_PARAMETER_OFFSET 1000
 
@@ -42,6 +43,9 @@ struct ParameterIDHash
 	 }
 };
 
+bool IsChannelParameterID(ParameterID id);
+
+int GetChannelIndex(ParameterID id);
 
 ParameterID GetBaseParameterID(ParameterID id, int channel);
 

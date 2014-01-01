@@ -24,6 +24,12 @@ void ParameterBus::updateParameterAndNotify(ParameterSource *source, ParameterID
 	notifySources(source, id);
 }
 
+void ParameterBus::updateChannelParameterAndNotify(ParameterSource *source, ParameterID baseid, int channel, var value)
+{
+	ParameterID id = GetChannelParameterID(baseid, channel);
+	return updateParameterAndNotify(source, id, value);
+}
+
 void ParameterBus::updateParameterAndQueueNotification(ParameterSource *source, ParameterID id, var value, int deferTicks)
 {
 	jassert(parameters.contains(id));
@@ -34,6 +40,12 @@ void ParameterBus::updateParameterAndQueueNotification(ParameterSource *source, 
 
 	NotificationQueueItem item = { source, id, deferTicks };
 	notificationQueue.push(item);
+}
+
+void ParameterBus::updateChannelParameterAndQueueNotification(ParameterSource *source, ParameterID baseid, int channel, var value, int deferTicks)
+{
+	ParameterID id = GetChannelParameterID(baseid, channel);
+	return updateParameterAndQueueNotification(source, id, value, deferTicks);
 }
 
 void ParameterBus::triggerNotificationQueue(void)
@@ -128,6 +140,20 @@ var ParameterBus::getParameterValue(ParameterID id) const
 	return parameters[id]->getValue();
 }
 
+Parameter* ParameterBus::getChannelParameter(ParameterID baseid, int channel) const
+{
+	ParameterID id = GetChannelParameterID(baseid, channel);
+
+	return getParameter(id);
+}
+
+var ParameterBus::getChannelParameterValue(ParameterID baseid, int channel) const
+{
+	ParameterID id = GetChannelParameterID(baseid, channel);
+
+	return getParameterValue(id);
+}
+
 int ParameterBus::getAutomationParameterCount(void) const
 {
 	return automationParameterIDs.size();
@@ -171,12 +197,10 @@ void ParameterBus::setAutomationParameterValue(int index, float value)
 
 void ParameterBus::notifySources(ParameterSource *source, ParameterID id)
 {
-	auto parameterSources = getParameterSources();
-
-	for (auto parameterSource : parameterSources) {
+	forEachParameterSource([&] (ParameterSource *parameterSource) {
 		if (parameterSource != nullptr && parameterSource != source) {
 			auto parameter = parameters[id];
 			parameterSource->onParameterUpdated(parameter);
 		}
-	}
+	});
 }

@@ -33,7 +33,7 @@ public:
 	//==============================================================================
 	virtual void configureParameters(void);
 	virtual void configureChannelParameters(int channel);
-	virtual Array<ParameterSource*> getParameterSources(void);
+	virtual void forEachParameterSource(std::function<void(ParameterSource*)> callback);
 
 	//==============================================================================
 	void timerCallback();

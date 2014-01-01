@@ -80,25 +80,18 @@ void BeepBoxAudioProcessor::configureChannelParameters(int channel)
 	configureReferenceCountedObjectParameter(GetChannelParameterID(ParameterID::Channel1_SequencerData, channel), data, new SequencerData(STEP_SEQUENCER_DEFAULT_NUM_STEPS));
 }
 
-Array<ParameterSource*> BeepBoxAudioProcessor::getParameterSources(void)
+void BeepBoxAudioProcessor::forEachParameterSource(std::function<void(ParameterSource*)> callback)
 {
-	Array<ParameterSource*> sources;
-
-	// add all sources here
-	sources.add(synthChannels);
-	sources.add(monome);
+	callback(synthChannels);
+	callback(monome);
 
 	auto editor = getActiveEditor();
 
 	if (editor != nullptr) {
-		auto _editor = dynamic_cast<ParameterSource*>(editor);
-		
-		if (_editor != nullptr) {
-			sources.add(_editor);
-		}
+		auto editorSource = dynamic_cast<ParameterSource*>(editor);
+		jassert(editorSource != nullptr);
+		callback(editorSource);
 	}
-
-	return sources;
 }
 
 //==============================================================================
@@ -218,10 +211,8 @@ void BeepBoxAudioProcessor::processBlock(AudioSampleBuffer& buffer, MidiBuffer& 
 {
     AudioPlayHead::CurrentPositionInfo posInfo;
 	this->getPlayHead()->getCurrentPosition(posInfo);
-
-	if (posInfo.isPlaying) {
-		synthChannels->onClockStep(posInfo.ppqPosition);
-	}
+	
+	synthChannels->onClockStep(posInfo.isPlaying, posInfo.ppqPosition);
 
 	synthChannels->processBlock(buffer, getNumInputChannels(), getNumOutputChannels());
 

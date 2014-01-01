@@ -334,6 +334,9 @@
     <Filter Include="Source\Monome">
       <UniqueIdentifier>{45c1e61c-980c-47a3-8f85-3c433b63d074}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Utility">
+      <UniqueIdentifier>{3654482c-109f-4503-8d1b-df2dbd81d7d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_basics\buffers\juce_AudioDataConverters.cpp">
@@ -1485,9 +1488,6 @@
     <ClCompile Include="..\..\Source\ParameterBus.cpp">
       <Filter>Source\Parameters</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Utilities.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_plugin_client\VST\juce_VST_Wrapper.cpp">
       <Filter>Libs\Juce Modules\juce_audio_plugin_client\VST</Filter>
     </ClCompile>
@@ -1503,9 +1503,6 @@
     <ClCompile Include="..\..\Source\SequencerData.cpp">
       <Filter>Source\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\StepSequencer.cpp">
-      <Filter>Source\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\ParameterID.cpp">
       <Filter>Source\Parameters</Filter>
     </ClCompile>
@@ -1516,6 +1513,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_audio_plugin_client\VST\juce_VST_Wrapper.cpp" />
     <ClCompile Include="..\..\Source\StepSequencerControl.cpp">
       <Filter>Source\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Utilities.cpp">
+      <Filter>Source\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2893,9 +2893,6 @@
     <ClInclude Include="..\..\Source\ParameterSource.h">
       <Filter>Source\Parameters</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Utilities.h">
-      <Filter>Source\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\SynthChannels.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
@@ -2908,14 +2905,14 @@
     <ClInclude Include="..\..\Source\SequencerData.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\StepSequencer.h">
-      <Filter>Source\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\MonomeControlSurface.h">
       <Filter>Source\Monome</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\StepSequencerControl.h">
       <Filter>Source\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Utilities.h">
+      <Filter>Source\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
