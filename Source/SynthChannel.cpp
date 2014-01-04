@@ -115,7 +115,15 @@ void SynthChannel::incrementEnvelopePhase(void)
 
 double SynthChannel::getWaveformFromPhase(void)
 {
-	return phase > scale(waveform, .5, .95) ? 1.0 : -1.0;
+	double pulse = phase > jlimit(.1, .9, scale(waveform * 2.0, .5, .95)) ? 1.0 : -1.0;
+
+	if (waveform <= .5) {
+		return pulse;
+	}
+	else {
+		double randomValue = phase > scale(random.nextDouble(), .1, .9) ? 1.0 : -1.0;
+		return ((1.0 - waveform) * pulse) + (randomValue * pulse); 
+	}
 }
 
 double SynthChannel::getEnvelopeFromPhase(void)

@@ -130,6 +130,7 @@ void StepSequencerControl::onMouseEvent(const MouseEvent &event, bool isDrag)
 	seqValue.value = seqValue.isSet ? 1.f : 0.f;
 	data->setValue(stepNumber, seqValue);
 	bus->updateChannelParameterAndNotify(this, ParameterID::Channel_SequencerData, trackNumber, data);
+	bus->updateParameterAndNotify(this, ParameterID::Global_ActiveChannel, trackNumber);
 
 	repaint();
 }

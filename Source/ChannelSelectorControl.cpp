@@ -52,7 +52,7 @@ void ChannelSelectorControl::mouseDown(const MouseEvent &event)
 		int channel = (int)floor(ydistance * (float)NUM_CHANNELS);
 
 		bus->updateParameterAndNotify(this, ParameterID::Global_ActiveChannel, channel);
-		repaint();
+		//repaint();
 	}
 
 

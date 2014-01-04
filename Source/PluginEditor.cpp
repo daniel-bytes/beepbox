@@ -43,6 +43,7 @@ void BeepBoxAudioProcessorEditor::onParameterUpdated(Parameter *parameter)
 		break;
 	case ParameterID::Global_ActiveChannel:
 		synthChannelControl->updateSliderValues();
+		channelSelectorControl->repaint();
 		break;
 	}
 }

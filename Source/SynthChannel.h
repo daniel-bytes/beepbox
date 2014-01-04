@@ -49,6 +49,7 @@ private:
 	double velocity;
 	double channelNormalize;
 	OwnedArray<DiodeLadderFilter> filters;
+	Random random;
 };
 
 #endif //__SYNTHCHANNEL_H__
