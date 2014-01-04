@@ -24,6 +24,8 @@ enum class ParameterID
 	Channel_Attack = 4,
 	Channel_Decay = 5,
 	Channel_SequencerData = 6,
+	Channel_Cutoff = 7,
+	Channel_Resonance = 8,
 
 	// Global
 	Global_ActiveChannel = 1001,

@@ -5,6 +5,7 @@
 #include "ParameterSource.h"
 
 class ParameterBus;
+class DiodeLadderFilter;
 
 class SynthChannel
 	: public ParameterSource
@@ -15,7 +16,7 @@ public:
 
 public:
 	virtual void onParameterUpdated(Parameter *parameter);
-	void prepareToPlay(double sampleRate, int samplesPerBlock);
+	void prepareToPlay(double sampleRate, int samplesPerBlock, int numOutputChannels);
 	void releaseResources(void);
 	void processBlock(AudioSampleBuffer& buffer, int numInputChannels, int numOutputChannels);
 	void trigger(double velocity);
@@ -46,6 +47,8 @@ private:
 	double waveform;
 	double decay;
 	double velocity;
+	double channelNormalize;
+	OwnedArray<DiodeLadderFilter> filters;
 };
 
 #endif //__SYNTHCHANNEL_H__

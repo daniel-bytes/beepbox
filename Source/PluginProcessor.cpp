@@ -64,6 +64,8 @@ void BeepBoxAudioProcessor::configureChannelParameters(int channel)
 	String attack = "Attack ";
 	String decay = "Decay ";
 	String data = "Sequencer Data ";
+	String cutoff = "Cutoff ";
+	String res = "Resonance ";
 
 	pitch << (channel + 1);
 	gain << (channel + 1);
@@ -71,6 +73,8 @@ void BeepBoxAudioProcessor::configureChannelParameters(int channel)
 	attack << (channel + 1);
 	decay << (channel + 1);
 	data << (channel + 1);
+	cutoff << (channel + 1);
+	res << (channel + 1);
 
 	configureIntParameter(GetChannelParameterID(ParameterID::Channel_Pitch, channel), pitch, 0, -60, 60, true);
 	configureFloatParameter(GetChannelParameterID(ParameterID::Channel_Gain, channel), gain, .75f, 0.0f, 1.0f, true);
@@ -78,6 +82,8 @@ void BeepBoxAudioProcessor::configureChannelParameters(int channel)
 	//configureFloatParameter(GetChannelParameterID(ParameterID::Channel_Attack, channel), attack, .75f, 0.0f, 1.0f, true);
 	configureFloatParameter(GetChannelParameterID(ParameterID::Channel_Decay, channel), decay, .75f, 0.0f, 1.0f, true);
 	configureReferenceCountedObjectParameter(GetChannelParameterID(ParameterID::Channel_SequencerData, channel), data, new SequencerData(STEP_SEQUENCER_DEFAULT_NUM_STEPS));
+	configureFloatParameter(GetChannelParameterID(ParameterID::Channel_Cutoff, channel), cutoff, .5f, 0, 1.f, true);
+	configureFloatParameter(GetChannelParameterID(ParameterID::Channel_Resonance, channel), res, .25f, 0.001f, .999f, true);
 }
 
 void BeepBoxAudioProcessor::forEachParameterSource(std::function<void(ParameterSource*)> callback)
@@ -199,7 +205,7 @@ void BeepBoxAudioProcessor::changeProgramName (int index, const String& newName)
 //==============================================================================
 void BeepBoxAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
-	synthChannels->prepareToPlay(sampleRate, samplesPerBlock);
+	synthChannels->prepareToPlay(sampleRate, samplesPerBlock, getNumOutputChannels());
 }
 
 void BeepBoxAudioProcessor::releaseResources()

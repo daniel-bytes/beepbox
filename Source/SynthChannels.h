@@ -16,7 +16,7 @@ public:
 
 public:
 	virtual void onParameterUpdated(Parameter *parameter);
-	void prepareToPlay(double sampleRate, int samplesPerBlock);
+	void prepareToPlay(double sampleRate, int samplesPerBlock, int numOutputChannels);
 	void releaseResources(void);
 	void processBlock(AudioSampleBuffer& buffer, int numInputChannels, int numOutputChannels);
 	void onClockStep(bool isPlaying, double ppq);

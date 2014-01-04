@@ -30,12 +30,16 @@ private:
 	Slider pitchSlider, 
 		   gainSlider, 
 		   waveformSlider,
-		   decaySlider;
+		   decaySlider,
+		   cutoffSlider,
+		   resSlider;
 
 	Label pitchLabel,
 		  gainLabel,
 		  waveformLabel,
-		  decayLabel;
+		  decayLabel,
+		  cutoffLabel,
+		  resLabel;
 };
 
 #endif //__SYNTHCHANNELCONTROL_H__

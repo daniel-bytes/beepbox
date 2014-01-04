@@ -1237,6 +1237,7 @@
     <ClInclude Include="..\..\osckpack\osc\OscReceivedElements.h" />
     <ClInclude Include="..\..\osckpack\osc\OscTypes.h" />
     <ClInclude Include="..\..\Source\ChannelSelectorControl.h" />
+    <ClInclude Include="..\..\Source\DiodeLadderFilter.h" />
     <ClInclude Include="..\..\Source\MonomeControlSurface.h" />
     <ClInclude Include="..\..\Source\MonomeDevice.h" />
     <ClInclude Include="..\..\Source\Parameter.h" />

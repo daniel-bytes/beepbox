@@ -6,12 +6,18 @@ SynthChannelControl::SynthChannelControl(ParameterBus *bus)
 	  pitchLabel("PitchLabel", "Pitch"),
 	  gainLabel("gainLabel", "Gain"),
 	  waveformLabel("waveformLabel", "Waveform"),
-	  decayLabel("decayLabel", "Decay")
+	  decayLabel("decayLabel", "Decay"),
+	  cutoffLabel("cutoffLabel", "Cutoff"),
+	  resLabel("resLabel", "Resonance")
 {
-	configureSlider(ParameterID::Channel_Gain, gainSlider, gainLabel, 0);
-	configureSlider(ParameterID::Channel_Pitch, pitchSlider, pitchLabel, 1);
-	configureSlider(ParameterID::Channel_Waveform, waveformSlider, waveformLabel, 2);
-	configureSlider(ParameterID::Channel_Decay, decaySlider, decayLabel, 3);
+	int channel = 0;
+
+	configureSlider(ParameterID::Channel_Gain, gainSlider, gainLabel, channel++);
+	configureSlider(ParameterID::Channel_Pitch, pitchSlider, pitchLabel, channel++);
+	configureSlider(ParameterID::Channel_Waveform, waveformSlider, waveformLabel, channel++);
+	configureSlider(ParameterID::Channel_Decay, decaySlider, decayLabel, channel++);
+	configureSlider(ParameterID::Channel_Cutoff, cutoffSlider, cutoffLabel, channel++);
+	configureSlider(ParameterID::Channel_Resonance, resSlider, resLabel, channel++);
 
 	updateSliderValues();
 }
@@ -26,6 +32,8 @@ void SynthChannelControl::updateSliderValues(void)
 	setSliderValue(ParameterID::Channel_Pitch, pitchSlider);
 	setSliderValue(ParameterID::Channel_Waveform, waveformSlider);
 	setSliderValue(ParameterID::Channel_Decay, decaySlider);
+	setSliderValue(ParameterID::Channel_Cutoff, cutoffSlider);
+	setSliderValue(ParameterID::Channel_Resonance, resSlider);
 }
 
 void SynthChannelControl::onParameterUpdated(Parameter *parameter)
@@ -52,6 +60,12 @@ void SynthChannelControl::sliderValueChanged (Slider* slider)
 	}
 	else if (slider == &decaySlider) {
 		bus->updateChannelParameterAndNotify(this, ParameterID::Channel_Decay, channel, slider->getValue());
+	}
+	else if (slider == &cutoffSlider) {
+		bus->updateChannelParameterAndNotify(this, ParameterID::Channel_Cutoff, channel, slider->getValue());
+	}
+	else if (slider == &resSlider) {
+		bus->updateChannelParameterAndNotify(this, ParameterID::Channel_Resonance, channel, slider->getValue());
 	}
 }
 

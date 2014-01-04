@@ -22,10 +22,10 @@ SynthChannels::~SynthChannels(void)
 	channels.clear(true);
 }
 
-void SynthChannels::prepareToPlay(double sampleRate, int samplesPerBlock)
+void SynthChannels::prepareToPlay(double sampleRate, int samplesPerBlock, int numOutputChannels)
 {
 	for (auto channel : channels) {
-		channel->prepareToPlay(sampleRate, samplesPerBlock);
+		channel->prepareToPlay(sampleRate, samplesPerBlock, numOutputChannels);
 	}
 }
 

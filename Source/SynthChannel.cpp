@@ -1,8 +1,10 @@
 #include "SynthChannel.h"
 #include "ParameterBus.h"
 #include "Utilities.h"
+#include "DiodeLadderFilter.h"
 
 #define BASE_PITCH 60
+#define FB_HPF_CUTOFF .01
 
 SynthChannel::SynthChannel(ParameterBus *bus, int channelNumber)
 	: channelNumber(channelNumber),
@@ -17,6 +19,7 @@ SynthChannel::SynthChannel(ParameterBus *bus, int channelNumber)
 	  envelopeincrement(0),
 	  envelopestate(EnvelopeState::Off),
 	  velocity(0),
+	  channelNormalize(1.0 / (double)NUM_CHANNELS),
 	  bus(bus)
 {
 	jassert(bus != nullptr);
@@ -24,10 +27,22 @@ SynthChannel::SynthChannel(ParameterBus *bus, int channelNumber)
 
 SynthChannel::~SynthChannel(void)
 {
+	filters.clear();
 }
 
-void SynthChannel::prepareToPlay(double sampleRate, int samplesPerBlock)
+void SynthChannel::prepareToPlay(double sampleRate, int samplesPerBlock, int numOutputChannels)
 {
+	filters.clear(true);
+
+	for (int i = 0; i < numOutputChannels; i++) {
+		auto filter = new DiodeLadderFilter();
+		filter->set_feedback_hpf_cutoff(FB_HPF_CUTOFF);
+		filter->set_fc((double)bus->getChannelParameterValue(ParameterID::Channel_Cutoff, this->channelNumber));
+		filter->set_q((double)bus->getChannelParameterValue(ParameterID::Channel_Resonance, this->channelNumber));
+
+		filters.add(filter);
+	}
+
 	this->sampleRate = sampleRate;
 	initializeIncrement();
 	initializeEnvelopeIncrement();
@@ -35,15 +50,25 @@ void SynthChannel::prepareToPlay(double sampleRate, int samplesPerBlock)
 
 void SynthChannel::releaseResources(void)
 {
+	filters.clear(true);
 }
 
 void SynthChannel::processBlock(AudioSampleBuffer& buffer, int numInputChannels, int numOutputChannels)
 {
 	for (int sample = 0; sample < buffer.getNumSamples(); sample++) {
 		for (int channel = 0; channel < buffer.getNumChannels(); channel++) {
+			auto filter = filters[channel];
 			float *outputdata = buffer.getSampleData(channel);
-			double sampledata = getWaveformFromPhase() * getEnvelopeFromPhase() * gain * velocity;
+			
+			// calculate waveform
+			double sampledata = getWaveformFromPhase();
 
+			// apply filter
+			sampledata = filter->tick(sampledata);
+			
+			// apply envelope and gain
+			sampledata *= (getEnvelopeFromPhase() * gain * velocity * channelNormalize);
+			
 			*(outputdata + sample) += (float)sampledata;
 		}
 
@@ -67,7 +92,7 @@ void SynthChannel::initializeIncrement(void)
 
 void SynthChannel::initializeEnvelopeIncrement(void)
 {
-	double scaledDecay = scale(decay, 20.0, 1.0);
+	double scaledDecay = scale(decay * decay, 30.0, 1.0);
 	envelopeincrement = (1.0 / sampleRate) * scaledDecay;
 }
 
@@ -90,11 +115,7 @@ void SynthChannel::incrementEnvelopePhase(void)
 
 double SynthChannel::getWaveformFromPhase(void)
 {
-	// just a basic sawtooth for now
-	double saw = (phase * 2.0) - 1.0;
-	double square = (saw > 0) ? 1.0 : -1.0;
-
-	return (saw * waveform) + (square * (1.0 - waveform));
+	return phase > scale(waveform, .5, .95) ? 1.0 : -1.0;
 }
 
 double SynthChannel::getEnvelopeFromPhase(void)
@@ -125,6 +146,20 @@ void SynthChannel::onParameterUpdated(Parameter *parameter)
 		case ParameterID::Channel_Decay:
 			this->decay = parameter->getValue();
 			initializeEnvelopeIncrement();
+			break;
+		case ParameterID::Channel_Cutoff:
+			{
+				for (int i = 0; i < filters.size(); i++) {
+					filters[i]->set_fc((double)parameter->getValue());
+				}
+			}
+			break;
+		case ParameterID::Channel_Resonance:
+			{
+				for (int i = 0; i < filters.size(); i++) {
+					filters[i]->set_q((double)parameter->getValue());
+				}
+			}
 			break;
 	}
 }
